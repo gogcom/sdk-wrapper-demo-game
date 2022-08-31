@@ -1,0 +1,13 @@
+#Dependencies
+lib/steam/
+lib/galaxy/
+lib/GalaxySteamWrapper/
+
+# Build generated folders
+bin/
+
+# VS generated files
+*.sdf
+*.sln
+*.vs
+*.VC.opendb
