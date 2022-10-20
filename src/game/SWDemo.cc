@@ -4,6 +4,8 @@
 #include <game/scenes/StatsView.h>
 #include <game/scenes/LeaderboardsView.h>
 #include <game/scenes/FriendsView.h>
+#include <game/scenes/LobbyMenuView.h>
+#include <game/scenes/LobbyView.h>
 
 #include <game/steam/StatsAndAchievementsData.h>
 
@@ -129,6 +131,12 @@ bool SWDemo::Update()
 			case GameState::State::FRIENDS_VIEW:
 				gameState = std::make_shared<FriendsView>(shared_from_this(), friends);
 				break;
+			case GameState::State::LOBBY_MENU_VIEW:
+				gameState = std::make_shared<LobbyMenuView>(shared_from_this());
+				break;
+			case GameState::State::LOBBY_VIEW:
+				gameState = std::make_shared<LobbyView>(shared_from_this(), lobby);
+				break;
 		}
 
 		if (!gameState->Init())
@@ -173,6 +181,22 @@ void SWDemo::OnMouseWheel(SDL_MouseWheelEvent mouseWheel)
 	gameState->OnMouseWheel(mouseWheel);
 }
 
+void SWDemo::OnTextInput(SDL_TextInputEvent inputEvent)
+{
+	if (!gameState)
+		return;
+
+	gameState->OnTextInput(inputEvent);
+}
+
+void SWDemo::OnTextEditing(SDL_TextEditingEvent editingEvent)
+{
+	if (!gameState)
+		return;
+
+	gameState->OnTextEditing(editingEvent);
+}
+
 bool SWDemo::SetGameState(const GameState::State& state)
 {
 	if (gameState)
@@ -181,4 +205,25 @@ bool SWDemo::SetGameState(const GameState::State& state)
 	currentGameState = state;
 	stateChanged = true;
 	return true;
+}
+
+void SWDemo::SetLobby(const LobbyPtr& _lobby)
+{
+	lobby = _lobby;
+}
+
+void SWDemo::CreateLobby()
+{
+	lobby = std::make_shared<CLobby>(shared_from_this(), true, "");
+}
+
+void SWDemo::JoinLobby(const std::string& connectionString)
+{
+	SDL_Log("Joining lobby: %s", connectionString.c_str());
+	lobby = std::make_shared<CLobby>(shared_from_this(), false, connectionString);
+}
+
+void SWDemo::LeaveLobby()
+{
+	lobby.reset();
 }

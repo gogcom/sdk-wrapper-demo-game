@@ -23,15 +23,41 @@ bool StartMenu::Init()
 {
 	int offsetX = 25;
 	int offsetY = 150;
-    buttons.emplace_back(MakeButton("ACHIEVEMENTS", offsetX, offsetY, [&]() {printf("Achievements\n");game->SetGameState(GameState::State::ACHIEVEMENTS_VIEW);}));
+    buttons.emplace_back(MakeButton("ACHIEVEMENTS", offsetX, offsetY,
+		[&]()
+		{
+			printf("Achievements\n");game->SetGameState(GameState::State::ACHIEVEMENTS_VIEW);
+		}));
 	offsetY += PADDING;
-    buttons.emplace_back(MakeButton("STATS", offsetX, offsetY, [&]() {printf("Stats\n");game->SetGameState(GameState::State::STATS_VIEW);}));
+    buttons.emplace_back(MakeButton("STATS", offsetX, offsetY,
+		[&]()
+		{
+			printf("Stats\n");game->SetGameState(GameState::State::STATS_VIEW);
+		}));
 	offsetY += PADDING;
-    buttons.emplace_back(MakeButton("LEADERBOARDS", offsetX, offsetY, [&]() {printf("Leaderboards\n");game->SetGameState(GameState::State::LEADERBOARDS_VIEW);}));
+    buttons.emplace_back(MakeButton("LEADERBOARDS", offsetX, offsetY,
+		[&]()
+		{
+			printf("Leaderboards\n");game->SetGameState(GameState::State::LEADERBOARDS_VIEW);
+		}));
 	offsetY += PADDING;
-	buttons.emplace_back(MakeButton("FRIENDS", offsetX, offsetY, [&]() {printf("Friends\n");game->SetGameState(GameState::State::FRIENDS_VIEW);}));
+	buttons.emplace_back(MakeButton("FRIENDS", offsetX, offsetY,
+		[&]()
+		{
+			printf("Friends\n");game->SetGameState(GameState::State::FRIENDS_VIEW);
+		}));
 	offsetY += PADDING;
-	buttons.emplace_back(MakeButton("QUIT", offsetX, offsetY, [&]() {printf("Quit\n");game->Close();}));
+	buttons.emplace_back(MakeButton("LOBBY", offsetX, offsetY,
+		[&]()
+		{
+			printf("Lobby Menu\n");game->SetGameState(GameState::State::LOBBY_MENU_VIEW);
+		}));
+	offsetY += PADDING;
+	buttons.emplace_back(MakeButton("QUIT", offsetX, offsetY,
+		[&]()
+		{
+			printf("Quit\n");game->Close();
+		}));
 
 	textLink = MakeLink("CLICK THIS LINK AND LEAVE YOUR FEEDBACK PLEASE", 0, 670, 1280, 50, "https://forms.gle/3h2oULcDGaDsZKMdA");
     return true;
@@ -68,6 +94,14 @@ void StartMenu::OnKeyDown(SDL_Keysym key)
 }
 
 void StartMenu::OnMouseWheel(SDL_MouseWheelEvent mouseWheel)
+{
+}
+
+void StartMenu::OnTextInput(SDL_TextInputEvent inputEvent)
+{
+}
+
+void StartMenu::OnTextEditing(SDL_TextEditingEvent editingEvent)
 {
 }
 

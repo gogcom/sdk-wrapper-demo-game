@@ -25,34 +25,34 @@ target_link_libraries(SWGame ${EXTERNAL_LIBS})
 add_custom_command(TARGET SWGame POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory 
 	"${CMAKE_SOURCE_DIR}/res"
-	"${INSTALL_DIR}")
+	"${INSTALL_DIR}/${CMAKE_BUILD_TYPE}")
 
 add_custom_command(TARGET SWGame POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different 
 	"${SDL2DIR}/lib/x64/SDL2.dll"
-	"${INSTALL_DIR}")
+	"${INSTALL_DIR}/${CMAKE_BUILD_TYPE}")
 
 add_custom_command(TARGET SWGame POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different 
 	"${SDL2TTFDIR}/lib/x64/SDL2_ttf.dll"
-	"${INSTALL_DIR}")
+	"${INSTALL_DIR}/${CMAKE_BUILD_TYPE}")
 
 add_custom_command(TARGET SWGame POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different 
 	"${SDL2IMAGEDIR}/lib/x64/SDL2_image.dll"
-	"${INSTALL_DIR}")
+	"${INSTALL_DIR}/${CMAKE_BUILD_TYPE}")
 
 add_custom_command(TARGET SWGame POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different 
 	"${SDL2GFXDIR}/lib/x64/SDL2_gfx.dll"
-	"${INSTALL_DIR}")
+	"${INSTALL_DIR}/${CMAKE_BUILD_TYPE}")
 
 add_custom_command(TARGET SWGame POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different 
-	"${STEAMWRAPPER_DIR}/Libraries/Galaxy64.dll"
-	"${INSTALL_DIR}")
+	"${CMAKE_SOURCE_DIR}/lib/GalaxySteamWrapper/Galaxy64.dll"
+	"${INSTALL_DIR}/${CMAKE_BUILD_TYPE}")
 
 add_custom_command(TARGET SWGame POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different 
-	"${STEAMWRAPPER_DIR}/Libraries/GalaxySteamWrapper64.dll"
-	"${INSTALL_DIR}/steam_api64.dll")
+	"${CMAKE_SOURCE_DIR}/lib/GalaxySteamWrapper/GalaxySteamWrapper64.dll"
+	"${INSTALL_DIR}/${CMAKE_BUILD_TYPE}/steam_api64.dll")

@@ -3,11 +3,52 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 
-#include "StatsAndAchievementsData.h"
-
 #include <steam_api.h>
 
 #include <memory>
+
+enum EAchievements
+{
+	ACH_TEST_0 = 0,
+	ACH_TEST_1 = 1,
+	ACH_TEST_2 = 2,
+};
+
+struct Achievement_t
+{
+	EAchievements m_eAchievementID;
+	const char *m_pchAchievementID;
+	char m_rgchName[128];
+	char m_rgchDescription[256];
+	bool m_bAchieved;
+	int m_iIconImage;
+};
+
+enum EStat
+{
+	STAT_TEST_0 = 0,
+	STAT_TEST_1 = 1,
+	STAT_TEST_2 = 2,
+	STAT_TEST_3 = 3,
+};
+
+enum EStatTypes
+{
+	STAT_INT = 0,
+	STAT_FLOAT = 1,
+	STAT_AVGRATE = 2,
+};
+
+struct Stat_t
+{
+	int m_ID;
+	EStatTypes m_eStatType;
+	const char *m_pchStatName;
+	int m_iValue;
+	float m_flValue;
+	float m_flAvgNumerator;
+	float m_flAvgDenominator;
+};
 
 class CStatsAndAchievements
 {

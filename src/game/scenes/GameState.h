@@ -21,7 +21,9 @@ public:
 		ACHIEVEMENTS_VIEW,
 		STATS_VIEW,
 		LEADERBOARDS_VIEW,
-		FRIENDS_VIEW
+		FRIENDS_VIEW,
+		LOBBY_MENU_VIEW,
+		LOBBY_VIEW
 	};
 
 	explicit GameState(GamePtr _game)
@@ -39,6 +41,8 @@ public:
 	virtual void OnMouseMotion(std::uint32_t x, std::uint32_t y) = 0;
 	virtual void OnKeyDown(SDL_Keysym key) = 0;
 	virtual void OnMouseWheel(SDL_MouseWheelEvent mouseWheel) = 0;
+	virtual void OnTextInput(SDL_TextInputEvent inputEvent) = 0;
+	virtual void OnTextEditing(SDL_TextEditingEvent editingEvent) = 0;
 
 	virtual bool Update() = 0;
 

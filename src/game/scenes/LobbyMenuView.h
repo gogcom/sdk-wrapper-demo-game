@@ -1,20 +1,18 @@
-#ifndef STATS_VIEW_H
-#define STATS_VIEW_H
+#ifndef LOBBY_MENU_VIEW_H
+#define LOBBY_MENU_VIEW_H
 
 #include "GameState.h"
 #include <game/gui/Button.h>
-#include <game/gui/TextOutputDisplay.h>
-#include <game/gui/TextLink.h>
-#include <game/steam/StatsAndAchievements.h>
+#include <game/gui/TextInput.h>
 
 #include <vector>
 #include <string>
 
-class StatsView : public GameState
+class LobbyMenuView : public GameState
 {
 public:
 
-    StatsView(const GamePtr& _game, const StatsAndAchievementsPtr& _statsAndAchievements);
+    LobbyMenuView(const GamePtr& _game);
 
     virtual bool Init() override;
     virtual bool Release() override;
@@ -31,10 +29,8 @@ public:
 
 private:
 
-    StatsAndAchievementsPtr statsAndAchievements;
     std::vector<ButtonPtr> buttons;
-    TextOutputDisplayPtr textOutputDisplay;
-    TextLinkPtr textLink;
+    TextInputPtr textInput;
 };
 
 #endif

@@ -19,6 +19,9 @@ using LeaderboardsPtr = std::shared_ptr<CLeaderboards>;
 class CFriends;
 using FriendsPtr = std::shared_ptr<CFriends>;
 
+class CLobby;
+using LobbyPtr = std::shared_ptr<CLobby>;
+
 namespace galaxy
 {
 	namespace api
@@ -43,8 +46,14 @@ class SWDemo : public std::enable_shared_from_this<SWDemo>
         void OnMouseMotion(std::uint32_t x, std::uint32_t y);
         void OnKeyDown(SDL_Keysym key);
         void OnMouseWheel(SDL_MouseWheelEvent mouseWheel);
+        void OnTextInput(SDL_TextInputEvent inputEvent);
+        void OnTextEditing(SDL_TextEditingEvent editingEvent);
 
         bool SetGameState(const GameState::State& gameState);
+        void SetLobby(const LobbyPtr& lobby);
+        void CreateLobby();
+        void JoinLobby(const std::string& connectionString);
+        void LeaveLobby();
 
         bool IsUserLoggedIn()
         {
@@ -54,6 +63,11 @@ class SWDemo : public std::enable_shared_from_this<SWDemo>
         std::string GetUserName()
         {
             return userName;
+        }
+
+        LobbyPtr GetLobby()
+        {
+            return lobby;
         }
 
     private:
@@ -70,6 +84,7 @@ class SWDemo : public std::enable_shared_from_this<SWDemo>
         StatsAndAchievementsPtr statsAndAchievements;
         LeaderboardsPtr leaderboards;
         FriendsPtr friends;
+        LobbyPtr lobby;
 };
 
 using GamePtr = std::shared_ptr<SWDemo>;

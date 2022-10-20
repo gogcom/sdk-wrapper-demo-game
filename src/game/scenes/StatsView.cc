@@ -26,87 +26,100 @@ StatsView::StatsView(const GamePtr& _game, const StatsAndAchievementsPtr& _stats
 bool StatsView::Init()
 {
 	std::string statsInitString{"To display stats first click \"GET STATS\".\nAfter every update click the button again.\n"};
-	textOutputDisplay = MakeTextOutputDisplay("STATS VIEW TEXT OUTPUT", 400, 150, 800, 400, [&]() {printf("Stats View Text Output\n");textOutputDisplay->SetDisplayText(statsInitString);});
+	textOutputDisplay = MakeTextOutputDisplay("STATS VIEW TEXT OUTPUT", 400, 150, 800, 400,
+		[&]() {printf("Stats View Text Output\n");textOutputDisplay->SetDisplayText(statsInitString);});
 	textOutputDisplay->SetDisplayText(statsInitString);
 
 	int offsetX = 25;
 	int offsetY = 150;
-	buttons.emplace_back(MakeButton("MAIN MENU", offsetX, offsetY, [&]() {printf("Main Menu\n");game->SetGameState(GameState::State::START_MENU);}));
-	offsetY += PADDING;
-	buttons.emplace_back(MakeButton("INC INT STAT BY 1", offsetX, offsetY, [&]() 
-	{
-		printf("STAT_TEST_0++\n");
-		int statValue = statsAndAchievements->GetStatsData()[STAT_TEST_0].m_iValue;
-		statsAndAchievements->SetStat(STAT_TEST_0, statValue + 1);
-	}));
-	offsetY += PADDING;
-    buttons.emplace_back(MakeButton("INC FLOAT1 STAT BY 1.37", offsetX, offsetY, [&]() {
-		printf("STAT_TEST_1++\n");
-		float statValue = statsAndAchievements->GetStatsData()[STAT_TEST_1].m_flValue;
-		statsAndAchievements->SetStat(STAT_TEST_1, statValue + 1.37f);
-	}));
-	offsetY += PADDING;
-    buttons.emplace_back(MakeButton("INC FLOAT2 STAT BY 3.14", offsetX, offsetY, [&]() {
-		printf("STAT_TEST_2++\n");
-		float statValue = statsAndAchievements->GetStatsData()[STAT_TEST_2].m_flValue;
-		statsAndAchievements->SetStat(STAT_TEST_2, statValue + 3.14f);
-	}));
-	offsetY += PADDING;
-    buttons.emplace_back(MakeButton("AVG STAT_TEST_1/0.225", offsetX, offsetY, [&]() {
-		float statFloat1Value = statsAndAchievements->GetStatsData()[STAT_TEST_1].m_flValue;
-		float statFloat2Value = statsAndAchievements->GetStatsData()[STAT_TEST_2].m_flValue;
-		printf("STAT_TEST_3 get AVG of STAT_TEST_1 and 0.225\n");
-		statsAndAchievements->SetAvgRateStat(STAT_TEST_3, statFloat1Value, 0.225f);
-	}));
-	offsetY += PADDING;
-    buttons.emplace_back(MakeButton("GET STATS", offsetX, offsetY, [&]() 
-	{
-		SDL_Log("Get Stats\n");
-		statsAndAchievements->RequestStats();
-		Stat_t *pStats = statsAndAchievements->GetStatsData();
-		std::string statsString;
-		std::string statsStrResult;
-		for (int iStat=0; iStat<statsAndAchievements->GetNumStats(); ++iStat)
+	buttons.emplace_back(MakeButton("MAIN MENU", offsetX, offsetY,
+		[&]()
 		{
-			Stat_t &stat = pStats[iStat];
-			int size_s;
-			switch (stat.m_eStatType)
+			printf("Main Menu\n");game->SetGameState(GameState::State::START_MENU);
+		}));
+	offsetY += PADDING;
+	buttons.emplace_back(MakeButton("INC INT STAT BY 1", offsetX, offsetY,
+		[&]() 
+		{
+			printf("STAT_TEST_0++\n");
+			int statValue = statsAndAchievements->GetStatsData()[STAT_TEST_0].m_iValue;
+			statsAndAchievements->SetStat(STAT_TEST_0, statValue + 1);
+		}));
+	offsetY += PADDING;
+    buttons.emplace_back(MakeButton("INC FLOAT1 STAT BY 1.37", offsetX, offsetY,
+		[&]()
+		{
+			printf("STAT_TEST_1++\n");
+			float statValue = statsAndAchievements->GetStatsData()[STAT_TEST_1].m_flValue;
+			statsAndAchievements->SetStat(STAT_TEST_1, statValue + 1.37f);
+		}));
+	offsetY += PADDING;
+    buttons.emplace_back(MakeButton("INC FLOAT2 STAT BY 3.14", offsetX, offsetY,
+		[&]()
+		{
+			printf("STAT_TEST_2++\n");
+			float statValue = statsAndAchievements->GetStatsData()[STAT_TEST_2].m_flValue;
+			statsAndAchievements->SetStat(STAT_TEST_2, statValue + 3.14f);
+		}));
+	offsetY += PADDING;
+    buttons.emplace_back(MakeButton("AVG STAT_TEST_1/0.225", offsetX, offsetY,
+		[&]()
+		{
+			float statFloat1Value = statsAndAchievements->GetStatsData()[STAT_TEST_1].m_flValue;
+			float statFloat2Value = statsAndAchievements->GetStatsData()[STAT_TEST_2].m_flValue;
+			printf("STAT_TEST_3 get AVG of STAT_TEST_1 and 0.225\n");
+			statsAndAchievements->SetAvgRateStat(STAT_TEST_3, statFloat1Value, 0.225f);
+		}));
+	offsetY += PADDING;
+    buttons.emplace_back(MakeButton("GET STATS", offsetX, offsetY,
+		[&]() 
+		{
+			SDL_Log("Get Stats\n");
+			statsAndAchievements->RequestStats();
+			Stat_t *pStats = statsAndAchievements->GetStatsData();
+			std::string statsString;
+			std::string statsStrResult;
+			for (int iStat=0; iStat<statsAndAchievements->GetNumStats(); ++iStat)
 			{
-			case STAT_INT:
-				statsString = "Stat: %s Value: %d\n";
-				size_s = std::snprintf(nullptr, 0, statsString.c_str(), stat.m_pchStatName, stat.m_iValue);
-				break;
+				Stat_t &stat = pStats[iStat];
+				int size_s;
+				switch (stat.m_eStatType)
+				{
+				case STAT_INT:
+					statsString = "Stat: %s Value: %d\n";
+					size_s = std::snprintf(nullptr, 0, statsString.c_str(), stat.m_pchStatName, stat.m_iValue);
+					break;
 
-			case STAT_FLOAT:
-				statsString = "Stat: %s Value: %f\n";
-				size_s = std::snprintf(nullptr, 0, statsString.c_str(), stat.m_pchStatName, stat.m_flValue);
-				break;
+				case STAT_FLOAT:
+					statsString = "Stat: %s Value: %f\n";
+					size_s = std::snprintf(nullptr, 0, statsString.c_str(), stat.m_pchStatName, stat.m_flValue);
+					break;
 
-			case STAT_AVGRATE:
-				statsString = "AvgStat: %s Value: %f\n";
-				size_s = std::snprintf(nullptr, 0, statsString.c_str(), stat.m_pchStatName, stat.m_flValue);
-				break;
+				case STAT_AVGRATE:
+					statsString = "AvgStat: %s Value: %f\n";
+					size_s = std::snprintf(nullptr, 0, statsString.c_str(), stat.m_pchStatName, stat.m_flValue);
+					break;
 
-			default:
-				break;
-			};
-			auto size = static_cast<size_t>(size_s);
-			std::unique_ptr<char[]> buf(new char[size]);
-			if (stat.m_eStatType == STAT_INT)
-			{
-				std::snprintf(buf.get(), size, statsString.c_str(), stat.m_pchStatName, stat.m_iValue);
+				default:
+					break;
+				};
+				auto size = static_cast<size_t>(size_s);
+				std::unique_ptr<char[]> buf(new char[size]);
+				if (stat.m_eStatType == STAT_INT)
+				{
+					std::snprintf(buf.get(), size, statsString.c_str(), stat.m_pchStatName, stat.m_iValue);
+				}
+				else
+				{
+					std::snprintf(buf.get(), size, statsString.c_str(), stat.m_pchStatName, stat.m_flValue);
+				}
+				std::string str(buf.get());
+				statsStrResult += str;
+				statsStrResult += "\n";
 			}
-			else
-			{
-				std::snprintf(buf.get(), size, statsString.c_str(), stat.m_pchStatName, stat.m_flValue);
-			}
-			std::string str(buf.get());
-			statsStrResult += str;
-			statsStrResult += "\n";
-		}
-		textOutputDisplay->SetDisplayText(statsStrResult);
-        SDL_Log(statsStrResult.c_str());
-	}));
+			textOutputDisplay->SetDisplayText(statsStrResult);
+			SDL_Log(statsStrResult.c_str());
+		}));
 
 	textLink = MakeLink("CLICK THIS LINK AND LEAVE YOUR FEEDBACK PLEASE", 0, 670, 1280, 50, "https://forms.gle/3h2oULcDGaDsZKMdA");
 
@@ -144,6 +157,14 @@ void StatsView::OnKeyDown(SDL_Keysym key)
 }
 
 void StatsView::OnMouseWheel(SDL_MouseWheelEvent mouseWheel)
+{
+}
+
+void StatsView::OnTextInput(SDL_TextInputEvent inputEvent)
+{
+}
+
+void StatsView::OnTextEditing(SDL_TextEditingEvent editingEvent)
 {
 }
 

@@ -1,3 +1,8 @@
+#Dependencies
+#lib/steam/
+#lib/galaxy/
+#lib/GalaxySteamWrapper/
+
 # Build generated folders
 bin/
 
